@@ -1,21 +1,22 @@
-import WebSocket from "ws";
+import { WebSocketServer } from 'ws';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const port = process.env.PORT || 3001;
-const wss = new WebSocket.Server({ port }, () => {
-  console.log(`WebSocket ativo na porta ${port}`);
+const port = process.env.PORT || 3000;
+
+const wss = new WebSocketServer({ port }, () => {
+    console.log(`✅ WebSocket rodando na porta ${port}`);
 });
 
 wss.on('connection', (ws) => {
-  console.log('-- Cliente conectado --');
-  ws.send('Seja bem-vindo!');
+  console.log('🔗 Cliente conectado');
+  ws.send('👋 Seja bem-vindo!');
 
   ws.on('message', (msg) => {
-    console.log(`-- Recebido --: ${msg}`);
-    ws.send(`Eco: ${msg}`);
+    console.log(`📩 Mensagem recebida: ${msg}`);
+    ws.send(`📢 Eco: ${msg}`);
   });
 
-  ws.on('close', () => console.log('-- Cliente desconectado --'));
+  ws.on('close', () => console.log('❌ Cliente desconectado'));
 });
